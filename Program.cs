@@ -1,4 +1,4 @@
-﻿//mis 3033
+//mis 3033
 //lc 2-19
 //113529005
 //camille duryea
@@ -54,14 +54,6 @@ var r5 = db.Students.ToList().MaxBy(a => a.Grade);
 
 
 
-
-JsonSerializerOptions opts = new JsonSerializerOptions();
-opts.WriteIndented = true;
-
-string dataStr = JsonSerializer.Serialize(r5, opts);
-Console.WriteLine(dataStr);
-File.WriteAllText("data.json", dataStr);
-
 //average():double Sum(): Count()
 double aveGrade = db.Students.Average(x => x.Grade);
 Console.WriteLine(aveGrade);
@@ -71,3 +63,16 @@ Console.WriteLine(sumGrade);
 
 int c = db.Students.Where(x => x.LetterGrade == "C").Count();
 Console.WriteLine(c);
+
+//for feb 22
+
+var r6 = db.Students.GroupBy(x => x.LetterGrade).Select(x => new {L=x.Key,C=x.Count(),Average=x.Average(x=>x.Grade),
+    SmallTable=x.ToList()});
+//divide big table into small tables
+
+JsonSerializerOptions opts = new JsonSerializerOptions();
+opts.WriteIndented = true;
+
+string dataStr = JsonSerializer.Serialize(r6, opts);
+Console.WriteLine(dataStr);
+File.WriteAllText("data.json", dataStr);
